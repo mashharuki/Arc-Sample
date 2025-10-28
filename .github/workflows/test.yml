@@ -24,38 +24,10 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
       
-      - name: Show git status
-        run: |
-          git status
-          git submodule status
-      
-      - name: Initialize and update submodules
-        run: |
-          git submodule init
-          git submodule update --recursive --remote
-      
       - name: Install Forge dependencies
         run: |
-          forge install --no-commit
+          forge install
           git submodule update --init --recursive
-
-      - name: Ensure forge-std is available
-        run: |
-          if [ ! -d "lib/forge-std" ]; then
-            echo "forge-std not found, installing manually..."
-            git submodule add https://github.com/foundry-rs/forge-std lib/forge-std
-            git submodule update --init --recursive
-          fi
-
-      - name: List directory contents
-        run: ls -la lib/forge-std/src/
-
-      - name: Verify dependencies
-        run: |
-          echo "Checking if forge-std exists..."
-          ls -la lib/
-          ls -la lib/forge-std/src/ || echo "forge-std/src not found"
-          echo "Current working directory: $(pwd)"
 
       - name: Run Forge fmt
         run: forge fmt --check
