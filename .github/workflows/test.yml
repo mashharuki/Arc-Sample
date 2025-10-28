@@ -30,7 +30,7 @@ jobs:
           git submodule update --recursive
       
       - name: Install Forge dependencies
-        run: forge install --no-commit
+        run: forge install
 
       - name: Verify dependencies
         run: |
