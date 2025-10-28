@@ -79,3 +79,4 @@ cast call 0xAa363921A48Eac63F802C57658CdEde768B3DAe1 "getGreeting()(string)" \
 - [テストネット faucet](https://faucet.circle.com/)
 - [テストネット ブロックチェーンエクスプローラー](https://testnet.arcscan.app)
 - [コントラクトをデプロイしたトランザクション](https://testnet.arcscan.app/tx/0x356b023d3ee37052ad8e7fa96c7601aafb7ee874011b144193de31601367ee08)
+- [Blog - Circle Launches Arc Public Testnet](https://www.arc.network/blog/circle-launches-arc-public-testnet)
