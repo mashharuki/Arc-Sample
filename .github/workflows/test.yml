@@ -32,6 +32,9 @@ jobs:
       - name: Install Forge dependencies
         run: forge install
 
+      - name: List directory contents
+        run: ls -la lib/forge-std/src/
+
       - name: Verify dependencies
         run: |
           echo "Checking if forge-std exists..."
@@ -41,6 +44,9 @@ jobs:
 
       - name: Run Forge fmt
         run: forge fmt --check
+
+      - name: Run Forge build
+        run: forge build --sizes
 
       - name: Run Forge tests
         run: forge test -vvv
