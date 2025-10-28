@@ -24,11 +24,20 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
       
-      - name: lib Install
-        run: forge install
+      - name: Initialize and update submodules
+        run: |
+          git submodule init
+          git submodule update --recursive
+      
+      - name: Install Forge dependencies
+        run: forge install --no-commit
 
-      - name: Show Forge version
-        run: forge --version
+      - name: Verify dependencies
+        run: |
+          echo "Checking if forge-std exists..."
+          ls -la lib/
+          ls -la lib/forge-std/src/ || echo "forge-std/src not found"
+          echo "Current working directory: $(pwd)"
 
       - name: Run Forge fmt
         run: forge fmt --check
