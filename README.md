@@ -9,6 +9,17 @@ L1 Blocchain
 
 ## How to work
 
+### setup
+
+```bash
+cp .env.example .env
+```
+
+```txt
+ARC_TESTNET_RPC_URL="https://rpc.testnet.arc.network"
+PRIVATE_KEY="0x..."
+```
+
 ### install
 
 ```bash
@@ -67,3 +78,4 @@ cast call 0xAa363921A48Eac63F802C57658CdEde768B3DAe1 "getGreeting()(string)" \
 - [開発者ドキュメント](https://docs.arc.network/arc/tutorials/deploy-on-arc)
 - [テストネット faucet](https://faucet.circle.com/)
 - [テストネット ブロックチェーンエクスプローラー](https://testnet.arcscan.app)
+- [コントラクトをデプロイしたトランザクション](https://testnet.arcscan.app/tx/0x356b023d3ee37052ad8e7fa96c7601aafb7ee874011b144193de31601367ee08)
