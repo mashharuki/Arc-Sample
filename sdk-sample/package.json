@@ -2,10 +2,22 @@
   "name": "sdk-sample",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun run ./src/index.ts",
+    "generate": "bun run ./src/generate.ts",
+    "register": "bun run ./src/register.ts",
+    "createWallet": "bun run ./src/create-wallet.ts",
+    "getBalance": "bun run ./src/get-balance.ts",
+    "transfer": "bun run ./src/transfer.ts"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "dotenv": "^17.2.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@circle-fin/developer-controlled-wallets": "^10.1.0"
   }
 }
