@@ -8,7 +8,8 @@
     "register": "bun run ./src/register.ts",
     "createWallet": "bun run ./src/create-wallet.ts",
     "getBalance": "bun run ./src/get-balance.ts",
-    "transfer": "bun run ./src/transfer.ts"
+    "transfer": "bun run ./src/transfer.ts",
+    "bridge": "bun run ./src/bridge.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -18,6 +19,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@circle-fin/adapter-circle-wallets": "^1.1.1",
+    "@circle-fin/bridge-kit": "^1.5.0",
     "@circle-fin/developer-controlled-wallets": "^10.1.0"
   }
 }

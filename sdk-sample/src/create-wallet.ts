@@ -9,9 +9,10 @@ const main = async () => {
     name: "Wallet Set 1",
   });
 
+  /* */
   // Create a wallet on Arc Testnet
   const walletsResponse = await client.createWallets({
-    blockchains: ["ARC-TESTNET"],
+    blockchains: ["ARC-TESTNET", "ARB-SEPOLIA"],
     count: 2,
     walletSetId: walletSetResponse.data?.walletSet?.id ?? "",
   });
@@ -19,6 +20,19 @@ const main = async () => {
   const walletData = await walletsResponse.data?.wallets
 
   console.log({walletData});
+  
+  /*
+  // Create a wallet on Arc Testnet
+  const walletsResponse = await client.createWallets({
+    blockchains: ["SOL-DEVNET"],
+    count: 1,
+    walletSetId: walletSetResponse.data?.walletSet?.id ?? "",
+  });
+
+  const walletData = await walletsResponse.data?.wallets
+
+  console.log({walletData});
+  */
 }
 
 main();

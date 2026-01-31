@@ -128,3 +128,174 @@ bun run transfer
 ```
 
 しばらく待ってから残高情報を取得すると変わっているはず
+
+### USDCのブリッジ
+
+※ 両方のネットワークにWalletを作成している必要あり！
+
+```bash
+bun run bridge
+```
+
+以下のようになっていればブリッジ成功！
+
+```json
+{
+  state: 'success',
+  amount: '0.1',
+  token: 'USDC',
+  source: {
+    address: '0xadb0d5482f87fa230eb9bc9fe68c82cff90c28cd',
+    chain: {
+      type: 'evm',
+      chain: 'Arc_Testnet',
+      name: 'Arc Testnet',
+      title: 'ArcTestnet',
+      nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 18 },
+      chainId: 5042002,
+      isTestnet: true,
+      explorerUrl: 'https://testnet.arcscan.app/tx/{hash}',
+      rpcEndpoints: [ 'https://rpc.testnet.arc.network/' ],
+      eurcAddress: '0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a',
+      usdcAddress: '0x3600000000000000000000000000000000000000',
+      cctp: {
+        domain: 26,
+        contracts: {
+          v2: {
+            type: 'split',
+            tokenMessenger: '0x8FE6B999Dc680CcFDD5Bf7EB0974218be2542DAA',
+            messageTransmitter: '0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275',
+            confirmations: 1,
+            fastConfirmations: 1
+          }
+        }
+      },
+      kitContracts: { bridge: '0xC5567a5E3370d4DBfB0540025078e283e36A363d' }
+    }
+  },
+  destination: {
+    address: '0xadb0d5482f87fa230eb9bc9fe68c82cff90c28cd',
+    chain: {
+      type: 'evm',
+      chain: 'Arbitrum_Sepolia',
+      name: 'Arbitrum Sepolia',
+      title: 'Arbitrum Sepolia Testnet',
+      nativeCurrency: { name: 'Sepolia Ether', symbol: 'ETH', decimals: 18 },
+      chainId: 421614,
+      isTestnet: true,
+      explorerUrl: 'https://sepolia.arbiscan.io/tx/{hash}',
+      rpcEndpoints: [ 'https://sepolia-rollup.arbitrum.io/rpc' ],
+      eurcAddress: null,
+      usdcAddress: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
+      cctp: {
+        domain: 3,
+        contracts: {
+          v1: {
+            type: 'split',
+            tokenMessenger: '0x9f3B8679c73C2Fef8b59B4f3444d4e156fb70AA5',
+            messageTransmitter: '0xaCF1ceeF35caAc005e15888dDb8A3515C41B4872',
+            confirmations: 65
+          },
+          v2: {
+            type: 'split',
+            tokenMessenger: '0x8FE6B999Dc680CcFDD5Bf7EB0974218be2542DAA',
+            messageTransmitter: '0xE737e5cEBEEBa77EFE34D4aa090756590b1CE275',
+            confirmations: 65,
+            fastConfirmations: 1
+          }
+        }
+      },
+      kitContracts: { bridge: '0xC5567a5E3370d4DBfB0540025078e283e36A363d' }
+    }
+  },
+  steps: [
+    {
+      name: 'approve',
+      state: 'success',
+      txHash: '0x5f13bec0bbec421ad60c2390099bf47db6def6c19359af82657073297614dc00',
+      data: {
+        txHash: '0x5f13bec0bbec421ad60c2390099bf47db6def6c19359af82657073297614dc00',
+        status: 'success',
+        cumulativeGasUsed: 55696n,
+        gasUsed: 55696n,
+        blockNumber: 24592829n,
+        blockHash: '0x0d01027da2ddfc33a989576bfe7e9474d02a98a0a9381c9cbed29b2dca8250ab',
+        transactionIndex: 0,
+        effectiveGasPrice: 90106009568n
+      },
+      explorerUrl: 'https://testnet.arcscan.app/tx/0x5f13bec0bbec421ad60c2390099bf47db6def6c19359af82657073297614dc00'
+    },
+    {
+      name: 'burn',
+      state: 'success',
+      txHash: '0xe4c49619fd71494e073b62f493aa5aeb8b47309633c647d7350d36ba49c64df6',
+      data: {
+        txHash: '0xe4c49619fd71494e073b62f493aa5aeb8b47309633c647d7350d36ba49c64df6',
+        status: 'success',
+        cumulativeGasUsed: 742925n,
+        gasUsed: 184683n,
+        blockNumber: 24592838n,
+        blockHash: '0xfd05d589dedc933f4db138c369d26545525b32f68543a2446b19ffeff35f3a37',
+        transactionIndex: 7,
+        effectiveGasPrice: 22000000000n
+      },
+      explorerUrl: 'https://testnet.arcscan.app/tx/0xe4c49619fd71494e073b62f493aa5aeb8b47309633c647d7350d36ba49c64df6'
+    },
+    {
+      name: 'fetchAttestation',
+      state: 'success',
+      data: {
+        attestation: '0x9454e141ed3e68bcb4a1109d8c19fc639f88fed4900de920777d871a01cef887683f126944eafd83a21278bc6df128b97093e77fdaa0adda875ca5139c0dcb731b4cd67b03aeae4920fec04e2b6b711fe83329f36341e5111e23ad321bcbc2114734462c4ba627ed1175a31bc3c3e756dcac816a6596ae0b74710fc0aad3de20ee1c',
+        message: '0x000000010000001a00000003b8ced7e31f0b174b46f5623cff15fe16c41d8e0d6bdf0beed136c9fcb5315cdc0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000008fe6b999dc680ccfdd5bf7eb0974218be2542daa0000000000000000000000000000000000000000000000000000000000000000000003e8000007d0000000010000000000000000000000003600000000000000000000000000000000000000000000000000000000000000adb0d5482f87fa230eb9bc9fe68c82cff90c28cd00000000000000000000000000000000000000000000000000000000000186a0000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+        eventNonce: '0xb8ced7e31f0b174b46f5623cff15fe16c41d8e0d6bdf0beed136c9fcb5315cdc',
+        cctpVersion: 2,
+        status: 'complete',
+        decodedMessage: {
+          sourceDomain: '26',
+          destinationDomain: '3',
+          nonce: '0xb8ced7e31f0b174b46f5623cff15fe16c41d8e0d6bdf0beed136c9fcb5315cdc',
+          sender: '0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa',
+          recipient: '0x8fe6b999dc680ccfdd5bf7eb0974218be2542daa',
+          destinationCaller: '0x0000000000000000000000000000000000000000000000000000000000000000',
+          minFinalityThreshold: '1000',
+          finalityThresholdExecuted: '2000',
+          messageBody: '0x000000010000000000000000000000003600000000000000000000000000000000000000000000000000000000000000adb0d5482f87fa230eb9bc9fe68c82cff90c28cd00000000000000000000000000000000000000000000000000000000000186a0000000000000000000000000c5567a5e3370d4dbfb0540025078e283e36a363d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+          decodedMessageBody: {
+            burnToken: '0x3600000000000000000000000000000000000000',
+            mintRecipient: '0xadb0d5482f87fa230eb9bc9fe68c82cff90c28cd',
+            amount: '100000',
+            messageSender: '0xc5567a5e3370d4dbfb0540025078e283e36a363d',
+            maxFee: '0',
+            feeExecuted: '0',
+            expirationBlock: '0',
+            hookData: null
+          }
+        },
+        delayReason: null
+      }
+    },
+    {
+      name: 'mint',
+      state: 'success',
+      txHash: '0x58b1b9fd990b05734b99b96162b53a836f6122b61c2758d4306e7ebc271e480f',
+      data: {
+        txHash: '0x58b1b9fd990b05734b99b96162b53a836f6122b61c2758d4306e7ebc271e480f',
+        status: 'success',
+        cumulativeGasUsed: 192267n,
+        gasUsed: 192267n,
+        blockNumber: 238542600n,
+        blockHash: '0xc2a611db6408d9e336e05c0a255e69138899a903bc7e7403f2c7424a19d6642c',
+        transactionIndex: 1,
+        effectiveGasPrice: 20054000n
+      },
+      explorerUrl: 'https://sepolia.arbiscan.io/tx/0x58b1b9fd990b05734b99b96162b53a836f6122b61c2758d4306e7ebc271e480f'
+    }
+  ],
+  config: { transferSpeed: 'FAST' },
+  provider: 'CCTPV2BridgingProvider'
+}
+```
+
+ちゃんとブリッジされている
+
+[Arbitrum Sepoliaのトランザクション - 0xadb0d5482f87fa230eb9bc9fe68c82cff90c28cd](https://sepolia.arbiscan.io/address/0xadb0d5482f87fa230eb9bc9fe68c82cff90c28cd)
