@@ -299,3 +299,170 @@ bun run bridge
 ちゃんとブリッジされている
 
 [Arbitrum Sepoliaのトランザクション - 0xadb0d5482f87fa230eb9bc9fe68c82cff90c28cd](https://sepolia.arbiscan.io/address/0xadb0d5482f87fa230eb9bc9fe68c82cff90c28cd)
+
+### Crosschain系の処理
+
+#### ウォレットの作成
+
+```bash
+bun run crosschain:createWallet
+```
+
+以下のようになればOK!
+
+```json
+{
+  walletData: [
+    {
+      id: "db398d05-9ec3-585c-adb2-2ac3fe12cf16",
+      state: "LIVE",
+      walletSetId: "d17f6615-3306-547e-a5ff-23255bf3d275",
+      custodyType: "DEVELOPER",
+      refId: "source-depositor",
+      name: "",
+      address: "0x3f7cb60bc138cf13c3aae1bef4d1f429ec42fd70",
+      blockchain: "ARC-TESTNET",
+      accountType: "EOA",
+      updateDate: "2026-02-02T00:31:54Z",
+      createDate: "2026-02-02T00:31:54Z",
+    }, {
+      id: "feeb44c5-7b35-5755-b7cc-4b7b53864d6c",
+      state: "LIVE",
+      walletSetId: "d17f6615-3306-547e-a5ff-23255bf3d275",
+      custodyType: "DEVELOPER",
+      refId: "source-depositor",
+      name: "",
+      address: "0x3f7cb60bc138cf13c3aae1bef4d1f429ec42fd70",
+      blockchain: "AVAX-FUJI",
+      accountType: "EOA",
+      updateDate: "2026-02-02T00:31:54Z",
+      createDate: "2026-02-02T00:31:54Z",
+    }, {
+      id: "c14f3aa0-3982-5880-8439-9a36b6b3c121",
+      state: "LIVE",
+      walletSetId: "d17f6615-3306-547e-a5ff-23255bf3d275",
+      custodyType: "DEVELOPER",
+      refId: "source-depositor",
+      name: "",
+      address: "0x3f7cb60bc138cf13c3aae1bef4d1f429ec42fd70",
+      blockchain: "BASE-SEPOLIA",
+      accountType: "EOA",
+      updateDate: "2026-02-02T00:31:54Z",
+      createDate: "2026-02-02T00:31:54Z",
+    }, {
+      id: "922fcab9-e60d-5f01-9165-67b19b2d5f6a",
+      state: "LIVE",
+      walletSetId: "d17f6615-3306-547e-a5ff-23255bf3d275",
+      custodyType: "DEVELOPER",
+      refId: "source-depositor",
+      name: "",
+      address: "0x3f7cb60bc138cf13c3aae1bef4d1f429ec42fd70",
+      blockchain: "ETH-SEPOLIA",
+      accountType: "EOA",
+      updateDate: "2026-02-02T00:31:54Z",
+      createDate: "2026-02-02T00:31:54Z",
+    }
+  ],
+}
+```
+
+生成された4つのウォレットIDは環境変数に登録する
+
+```bash
+CROSSCHAIN_WALLET_ID1=
+CROSSCHAIN_WALLET_ID2=
+CROSSCHAIN_WALLET_ID3=
+CROSSCHAIN_WALLET_ID4=
+```
+
+#### 残高取得
+
+```bash
+bun run crosschain:getBalance
+```
+
+```bash
+=== CROSSCHAIN_WALLET_ID1の残高 ===
+{
+  "tokenBalances": []
+}
+=== CROSSCHAIN_WALLET_ID2の残高 ===
+{
+  "tokenBalances": []
+}
+=== CROSSCHAIN_WALLET_ID3の残高 ===
+{
+  "tokenBalances": []
+}
+=== CROSSCHAIN_WALLET_ID4の残高 ===
+{
+  "tokenBalances": []
+}
+```
+
+#### deposit
+
+```bash
+bun run crosschain:deposit -- base avalanche
+# 他のチェーンの場合は以下
+bun run crosschain:deposit -- arc ethereum
+```
+
+以下のようになればOK!
+
+```bash
+--- Arc Testnet ---
+Approving 2 USDC for spender 0x0077777d7EBA4688BDeF3E311b846F25870A19B9
+Waiting for USDC approve (txId=6324ffaf-4872-5cfa-b3f7-ce2c39c7dbea)
+..
+USDC approve final state: COMPLETE
+Depositing 2 USDC to Gateway Wallet
+Waiting for Gateway deposit (txId=272af8ca-252e-585c-8fc4-8c0470cdd247)
+..
+Gateway deposit final state: COMPLETE
+
+--- Ethereum Sepolia ---
+Approving 2 USDC for spender 0x0077777d7EBA4688BDeF3E311b846F25870A19B9
+Waiting for USDC approve (txId=21aefe3c-8dd0-598f-9d8c-d238dd706073)
+......
+USDC approve final state: CONFIRMED
+Depositing 2 USDC to Gateway Wallet
+Waiting for Gateway deposit (txId=c2694599-26dc-527e-91a3-9e724a32ae4a)
+...........
+Gateway deposit final state: CONFIRMED
+Transaction complete. Once finality is reached, Gateway credits your unified USDC balance.
+```
+
+実施後にGatewayコントラクトの残高を確認する
+
+```bash
+bun run crosschain:getGatewayBalance
+```
+
+以下のようになっているはず
+
+```bash
+Depositor address: 0x3f7cb60bc138cf13c3aae1bef4d1f429ec42fd70
+  - Ethereum Sepolia: 2.000000 USDC
+  - Avalanche Fuji: 2.000000 USDC
+  - Base Sepolia: 2.000000 USDC
+  - Arc Testnet: 2.000000 USDC
+Unified USDC available: 8.000000 USDC
+```
+
+#### transfer
+
+Ethereum Sepolia、 Avalanche Fuji、 Arc TestnetからBase Sepoliaに1USDCを転送するスクリプト
+
+```bash
+# 一気に複数チェーンやる場合
+bun run crosschain:transfer -- ethereum avalanche arc
+```
+
+```bash
+Mint tx submitted: 4eea00c4-ef54-5aa3-a19b-4160f0534f09
+Waiting for USDC mint (txId=4eea00c4-ef54-5aa3-a19b-4160f0534f09)
+......
+USDC mint final state: CONFIRMED
+Minted 0.1 USDC
+```

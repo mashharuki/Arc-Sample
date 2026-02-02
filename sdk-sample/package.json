@@ -9,7 +9,12 @@
     "createWallet": "bun run ./src/create-wallet.ts",
     "getBalance": "bun run ./src/get-balance.ts",
     "transfer": "bun run ./src/transfer.ts",
-    "bridge": "bun run ./src/bridge.ts"
+    "bridge": "bun run ./src/bridge.ts",
+    "crosschain:createWallet": "bun run ./src/crosschain/create-wallet.ts",
+    "crosschain:getBalance": "bun run ./src/crosschain/get-balance.ts",
+    "crosschain:getGatewayBalance": "bun run ./src/crosschain/get-gateway-balance.ts",
+    "crosschain:deposit": "bun run ./src/crosschain/deposit.ts",
+    "crosschain:transfer": "bun run ./src/crosschain/transfer.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
