@@ -482,6 +482,12 @@ bun run crosschain:transfer2 -- arc
 
 WorldchainからArcにUSDCを転送させるコマンド
 
+事前にdepositもしておく必要あり
+
+```bash
+bun run crosschain:depositWorldchain
+```
+
 ```bash
 DESTINATION_CHAIN=arc bun run crosschain:transfer2 -- worldchain
 ```

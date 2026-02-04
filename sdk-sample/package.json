@@ -15,7 +15,9 @@
     "crosschain:getGatewayBalance": "bun run ./src/crosschain/get-gateway-balance.ts",
     "crosschain:deposit": "bun run ./src/crosschain/deposit.ts",
     "crosschain:transfer": "bun run ./src/crosschain/transfer.ts",
-    "crosschain:transfer2": "bun run ./src/crosschain/transfer2.ts"
+    "crosschain:transfer2": "bun run ./src/crosschain/transfer2.ts",
+    "crosschain:depositWorldchain": "bun run ./src/crosschain/deposit-worldchain.ts",
+    "crosschain:getGatewayBalanceWorldchain": "bun run ./src/crosschain/get-gateway-balance-worldchain.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
