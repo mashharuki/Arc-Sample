@@ -24,6 +24,7 @@ const {
   TRANSFER_AMOUNT_USDC,
   WORLDCHAIN_RPC_URL,
   WORLDCHAIN_MINT_PRIVATE_KEY,
+  WORLDCHAIN_BURN_PRIVATE_KEY,
 } = process.env;
 
 const ALLOWED_CHAINS = ["arc", "worldchain"] as const;
@@ -90,10 +91,40 @@ const main = async () => {
   for (const chain of sourceChains) {
     if (chain === destinationKeyRaw) continue;
     if (chain === "worldchain") {
-      throw new Error(
-        "World Chain Sepolia is not supported as a source chain with Circle Wallets. " +
-        "Use Arc as the source chain.",
+      if (!WORLDCHAIN_BURN_PRIVATE_KEY) {
+        throw new Error(
+          "WORLDCHAIN_BURN_PRIVATE_KEY is required for worldchain burn",
+        );
+      }
+      if (destinationKeyRaw !== "arc") {
+        throw new Error(
+          "World Chain as source currently supports only destination arc.",
+        );
+      }
+
+      const worldchainAccount = privateKeyToAccount(
+        WORLDCHAIN_BURN_PRIVATE_KEY as `0x${string}`,
       );
+
+      const burnIntent = makeBurnIntent(
+        chain,
+        destinationConfig.walletChain,
+        worldchainAccount.address,
+        recipientAddress,
+        transferAmountUsdc,
+      );
+
+      const typedData = burnIntentTypedData(burnIntent, domain);
+      const signature = await worldchainAccount.signTypedData(
+        typedData as any,
+      );
+
+      requests.push({
+        burnIntent: typedData.message,
+        signature,
+      });
+      burnIntentsForTotal.push(burnIntent);
+      continue;
     }
 
     const sourceConfig = CHAIN_CONFIG[chain];
