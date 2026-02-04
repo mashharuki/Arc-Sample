@@ -1,8 +1,8 @@
 import type { initiateDeveloperControlledWalletsClient } from "@circle-fin/developer-controlled-wallets";
 import { randomBytes } from "node:crypto";
 
-type WalletChain = "ETH-SEPOLIA" | "BASE-SEPOLIA" | "AVAX-FUJI" | "ARC-TESTNET";
-type Chain = "ethereum" | "base" | "avalanche" | "arc";
+type WalletChain = "ETH-SEPOLIA" | "BASE-SEPOLIA" | "AVAX-FUJI" | "ARC-TESTNET" | "OP-SEPOLIA" | "UNI-SEPOLIA" ;
+type Chain = "ethereum" | "base" | "avalanche" | "arc" | "op" | "unichain";
 
 export type ChainConfig = {
   chainName: string;
@@ -124,6 +124,36 @@ export const CHAIN_CONFIG: Record<Chain, ChainConfig> = {
     domain: 26,
     walletChain: "ARC-TESTNET",
   },
+  unichain: {
+    chainName: "Unichain Sepolia",
+    usdc: "0x31d0220469e10c4E71834a79b1f276d740d3768F",
+    walletId: getRequiredWalletId("CROSSCHAIN_WALLET_ID5"),
+    domain: 10,
+    walletChain: "UNI-SEPOLIA",
+  },
+  op: {
+    chainName: "Optimism Sepolia",
+    usdc: "0x5fd84259d66Cd46123540766Be93DFE6D43130D7",
+    walletId: getRequiredWalletId("CROSSCHAIN_WALLET_ID6"),
+    domain: 2,
+    walletChain: "OP-SEPOLIA",
+  },
+  /*
+  worldcoin: {
+    chainName: "Worldcoin Sepolia",
+    usdc: "0x5fd84259d66Cd46123540766Be93DFE6D43130D7",
+    walletId: getRequiredWalletId("CROSSCHAIN_WALLET_ID7"),
+    domain: 2,
+    walletChain: "WORLDCOIN-SEPOLIA",
+  },
+  sonic: {
+    chainName: " Sonic Sepolia",
+    usdc: "0x5fd84259d66Cd46123540766Be93DFE6D43130D7",
+    walletId: getRequiredWalletId("CROSSCHAIN_WALLET_ID8"),
+    domain: 2,
+    walletChain: "SONIC-SEPOLIA",
+  },
+  */
 };
 
 export const GATEWAY_WALLET_ADDRESS = "0x0077777d7EBA4688BDeF3E311b846F25870A19B9";

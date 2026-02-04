@@ -5,6 +5,8 @@ const {
   CROSSCHAIN_WALLET_ID2,
   CROSSCHAIN_WALLET_ID3,
   CROSSCHAIN_WALLET_ID4,
+  CROSSCHAIN_WALLET_ID5,
+  CROSSCHAIN_WALLET_ID6,
 } = process.env;
 
 /**
@@ -28,6 +30,14 @@ const main = async () => {
     id: CROSSCHAIN_WALLET_ID4!,
   });
 
+  const response5 = await client.getWalletTokenBalance({
+    id: CROSSCHAIN_WALLET_ID5!,
+  });
+
+  const response6 = await client.getWalletTokenBalance({
+    id: CROSSCHAIN_WALLET_ID6!,
+  });
+
   console.log("=== CROSSCHAIN_WALLET_ID1の残高 ===");
   console.log(JSON.stringify(response.data, null, 2));
 
@@ -39,6 +49,12 @@ const main = async () => {
 
   console.log("=== CROSSCHAIN_WALLET_ID4の残高 ===");
   console.log(JSON.stringify(response4.data, null, 2));
+
+  console.log("=== CROSSCHAIN_WALLET_ID5の残高 ===");
+  console.log(JSON.stringify(response5.data, null, 2));
+
+  console.log("=== CROSSCHAIN_WALLET_ID6の残高 ===");
+  console.log(JSON.stringify(response6.data, null, 2));
 };
 
 main();

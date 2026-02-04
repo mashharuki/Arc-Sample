@@ -10,6 +10,8 @@ const CHAINS = {
   ethereum: { domain: 0, name: "Ethereum Sepolia" },
   avalanche: { domain: 1, name: "Avalanche Fuji" },
   base: { domain: 6, name: "Base Sepolia" },
+  op: { domain: 2, name: "Optimism Sepolia" },
+  unichain: { domain: 10, name: "Unichain Sepolia" },
   arc: { domain: 26, name: "Arc Testnet" },
 };
 

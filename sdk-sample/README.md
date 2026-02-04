@@ -373,7 +373,11 @@ CROSSCHAIN_WALLET_ID1=
 CROSSCHAIN_WALLET_ID2=
 CROSSCHAIN_WALLET_ID3=
 CROSSCHAIN_WALLET_ID4=
+CROSSCHAIN_WALLET_ID5=
+CROSSCHAIN_WALLET_ID6=
 ```
+
+生成後にウォレットアドレスに対して`ネイティブトークン`と`USDC`をそれぞれ送金する必要がある。
 
 #### 残高取得
 
@@ -406,6 +410,7 @@ bun run crosschain:getBalance
 bun run crosschain:deposit -- base avalanche
 # 他のチェーンの場合は以下
 bun run crosschain:deposit -- arc ethereum
+bun run crosschain:deposit -- arc op unichain
 ```
 
 以下のようになればOK!
@@ -456,7 +461,7 @@ Ethereum Sepolia、 Avalanche Fuji、 Arc TestnetからBase Sepoliaに1USDCを�
 
 ```bash
 # 一気に複数チェーンやる場合
-bun run crosschain:transfer -- ethereum avalanche arc
+bun run crosschain:transfer -- arc op unichain
 ```
 
 ```bash

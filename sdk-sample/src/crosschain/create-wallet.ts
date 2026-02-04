@@ -11,7 +11,7 @@ const main = async () => {
 
   // Create a wallet on Arc Testnet
   const walletsResponse = await client.createWallets({
-    blockchains: ["ARC-TESTNET", "AVAX-FUJI", "BASE-SEPOLIA", "ETH-SEPOLIA"],
+    blockchains: ["ARC-TESTNET", "AVAX-FUJI", "BASE-SEPOLIA", "ETH-SEPOLIA", "UNI-SEPOLIA", "OP-SEPOLIA"],
     count: 1,
     walletSetId: walletSetResponse.data?.walletSet?.id ?? "",
     metadata: [{ refId: "source-depositor" }],
