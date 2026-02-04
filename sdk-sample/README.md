@@ -471,3 +471,17 @@ Waiting for USDC mint (txId=4eea00c4-ef54-5aa3-a19b-4160f0534f09)
 USDC mint final state: CONFIRMED
 Minted 0.1 USDC
 ```
+
+#### transfer2 
+
+ArcからWorldchainにUSDCを転送させるコマンド
+
+```bash
+bun run crosschain:transfer2 -- arc
+```
+
+WorldchainからArcにUSDCを転送させるコマンド
+
+```bash
+DESTINATION_CHAIN=arc bun run crosschain:transfer2 -- worldchain
+```
