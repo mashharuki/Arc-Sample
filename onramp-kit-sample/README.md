@@ -139,7 +139,7 @@ cp .env.example .env.local
 ```bash
 ONRAMP_MODE=sandbox              # まず mock で試すなら mock のまま
 ONRAMP_API_KEY=<Console で発行された文字列をそのまま>
-ONRAMP_REFERRER_DOMAIN=          # 空でよい。埋め込みに失敗したら §8 を参照
+ONRAMP_REFERRER_DOMAIN=          # 銀行振込だけなら空でよい。カード系の決済手段には必須 (§8 参照)
 ```
 
 `ONRAMP_API_KEY` は `<ENV>_API_KEY:<keyId>:<keySecret>` 形式で、加工せずそのまま使います。`.env.local` は git 管理から除外されています。
@@ -225,6 +225,30 @@ bun run test    # vitest。mock モードで認可とルートを検証 (7 件)
 
 > Transak によると、staging の KYC 結果は常に承認されます。ただし、アカウント作成と個人情報の入力画面は通る必要があります。
 
+### 実測したイベント(sandbox)
+
+sandbox の iframe で、銀行振込(BankTransfer)により 50 USDC を送信したときのイベントです([検証ログ](docs/verification-log.md))。
+
+| イベント | 実測 |
+| --- | --- |
+| `INITIALIZATION_SUCCESS` | 1 回の起動で **2 回** 届いた。ハンドラは冪等にすること |
+| `DEPOSIT_SUBMITTED` | 1 回。payload は下記 |
+| `DEPOSIT_SETTLED` | この実験では届いていない(未検証) |
+
+```json
+{
+  "amount": 50,
+  "tokenSymbol": "USDC",
+  "paymentMethod": "BankTransfer",
+  "settlementExpected": false,
+  "orderId": "<uuid>"
+}
+```
+
+- `settlementExpected` は docs のフィールド一覧に無かった項目です。意味は未確認です(銀行振込は即時決済されない、という意味かもしれません)。
+- 3 回の送信で `orderId` が同じ値でした。重複の判定は `orderId` で行う前提にします。
+- `transactionHash` は `DEPOSIT_SUBMITTED` の payload には含まれていませんでした。
+
 ## 7. ディレクトリ構成
 
 ```
@@ -247,6 +271,7 @@ onramp-kit-sample/
 | iframe が真っ白で、エラーも出ない | CSP に widget / API の origin が無い。ブラウザが読み込み前にブロックするため、イベントも出ない。`next.config.ts` の `frame-src` / `connect-src` を確認 |
 | iframe が表示されない(高さ 0) | 別オリジンの iframe は中身に合わせて伸びない。コンテナに明示的な高さ(720px 等)が必要 |
 | iframe が埋め込めない | `referrerDomain` の設定漏れ、または値が不正の可能性。ホスト名のみ(scheme・port・path・`*` は不可)で、実際にアクセスしているホストと一致させる。localhost で失敗する場合は cloudflared / ngrok のホスト名を設定し、その URL でアクセスする。`referrerDomain` は起動時に読まれるので、変更後は dev サーバを再起動 |
+| 決済手段が銀行振込しか選べない | デビットカード・Apple Pay・Google Pay を有効にするには、[Circle Console](https://console.circle.com/app-kits/) での **KYB の完了**と、サーバー側からの `referrerDomain` の指定が必要(docs)。クレジットカードは非対応。sandbox で KYB が必須かは未確認(Console の Testnet 案内には KYB・ドメイン登録の記述が無い。まず `referrerDomain` の設定を試す) |
 | iOS Safari で KYC が失敗する | ITP による iframe 内ストレージ制限。popup モード(`openWindow`)を推奨(Phase 3 で実装予定) |
 | ポップアップが開かない | `openWindow` は click ハンドラ内で同期的に呼ぶ必要がある。`await` の後だとブロックされる |
 | 表示後に `INVALID_SESSION_TOKEN` / `SESSION_TIMEOUT` | セッションは約 30 分で失効する。再発行して再 mount する |
@@ -262,6 +287,8 @@ onramp-kit-sample/
 - webhook の署名検証方式とペイロード
 - npm パッケージに Arc メインネットへの参照(`rpc.mainnet.arc.io` など)があるため、テストネット前提の記述を見直す必要があるか
 - 決済プロバイダは型定義の記述から Transak と読み取れるが、公式 docs での明記は未確認
+- sandbox でカード決済を選べるようにする条件(docs は KYB + `referrerDomain` を要件とするが、sandbox で KYB が必須かは未確認。実測では銀行振込のみ選択可能だった)
+- `INITIALIZATION_SUCCESS` が 2 回届く理由、`settlementExpected` の意味、`DEPOSIT_SETTLED` が届く条件(銀行振込では届かなかった。カード決済で確認する)
 
 ## 10. 出典
 
